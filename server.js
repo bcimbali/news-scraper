@@ -52,7 +52,7 @@ app.get("/scrape", function(req, res) {
       result.title = $(this)
         .children("a")
         .text();
-      result.link = $(this)
+      result.link = 'https://www.residentadvisor.net' + $(this)
         .children("a")
         .attr("href");
 
