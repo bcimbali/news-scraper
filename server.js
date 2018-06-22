@@ -17,6 +17,9 @@ var PORT = process.env.PORT || 3000;
 // Initialize Express
 var app = express();
 
+// Used for testing the HTML Scrape.
+let testHTML;
+
 // Configure middleware
 
 // Use morgan logger for logging requests
@@ -33,15 +36,15 @@ mongoose.connect(MONGODB_URI);
 
 // Routes
 
-// A GET route for scraping the echoJS website
+// A GET route for scraping the website
 app.get("/scrape", function(req, res) {
   // First, we grab the body of the html with request
-  axios.get("http://www.echojs.com/").then(function(response) {
+  axios.get("https://www.residentadvisor.net/guide/us/chicago").then(function(response) {
     // Then, we load that into cheerio and save it to $ for a shorthand selector
     var $ = cheerio.load(response.data);
-
+    testHTML = $.html();
     // Now, we grab every h2 within an article tag, and do the following:
-    $("article h2").each(function(i, element) {
+    $("li article").each(function(i, element) {
       // Save an empty result object
       var result = {};
 
@@ -66,7 +69,8 @@ app.get("/scrape", function(req, res) {
     });
 
     // If we were able to successfully scrape and save an Article, send a message to the client
-    res.send("Scrape Complete");
+    // res.send("Scrape Complete");
+    // res.send(testHTML);
   });
 });
 
