@@ -55,6 +55,10 @@ app.get("/scrape", function(req, res) {
       result.link = 'https://www.residentadvisor.net' + $(this)
         .children("a")
         .attr("href");
+      result.image = 'https://www.residentadvisor.net' + $(this)
+        .find("img")
+        .attr("src");
+      
 
       // Create a new Article using the `result` object built from scraping
       db.Article.create(result)
@@ -69,7 +73,7 @@ app.get("/scrape", function(req, res) {
     });
 
     // If we were able to successfully scrape and save an Article, send a message to the client
-    // res.send("Scrape Complete");
+    res.send("Scrape Complete");
     // res.send(testHTML);
   });
 });
