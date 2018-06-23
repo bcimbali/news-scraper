@@ -3,17 +3,30 @@ $.getJSON("/articles", function(data) {
   // For each one
   for (var i = 0; i < data.length; i++) {
     // Display the apropos information on the page
-    $("#articles").append("<p data-id='" + data[i]._id + "'>" + '<img src="' + data[i].image + '">' + '<a href="' + data[i].link + '/" target="_blank">' + data[i].title + "</a></p>");
+    // $("#articles").append("<p data-id='" + data[i]._id + "'>" + '<img src="' + data[i].image + '">' + '<a href="' + data[i].link + '/" target="_blank">' + data[i].title + "</a></p><p>" + data[i].venue + "</p>");
+    $("#articles").append(
+      `<div class="card col-md-3 m-3 js-div" data-id="${data[i]._id}" style="width: 18rem;">
+        <img class="card-img-top" src="${data[i].image}" alt="Event Image">
+        <div class="card-body">
+          <p class="card-text">
+            <a href="${data[i].link}/"target="_blank">${data[i].title}</a>
+          </p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">${data[i].venue}</li>
+        </ul>
+      </div>`
+    );
   }
 });
 
-
-// Whenever someone clicks a p tag
-$(document).on("click", "p", function() {
+// Whenever someone clicks a div tag
+$(document).on("click", ".js-div", function() {
   // Empty the notes from the note section
   $("#notes").empty();
   // Save the id from the p tag
   var thisId = $(this).attr("data-id");
+  console.log('Data ID is: ' + thisId);
 
   // Now make an ajax call for the Article
   $.ajax({
@@ -69,4 +82,9 @@ $(document).on("click", "#savenote", function() {
   // Also, remove the values entered in the input and textarea for note entry
   $("#titleinput").val("");
   $("#bodyinput").val("");
+});
+
+// Clear articles button.
+$('.js-clear').on('click', function() {
+    $('.js-article').empty();
 });
