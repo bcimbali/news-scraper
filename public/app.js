@@ -1,9 +1,20 @@
+$(document).ready(function() {
+
+
+
 // Grab the articles as a json
 $.getJSON("/articles", function(data) {
   // For each one
+
+  
   for (var i = 0; i < data.length; i++) {
     // Display the apropos information on the page
     // $("#articles").append("<p data-id='" + data[i]._id + "'>" + '<img src="' + data[i].image + '">' + '<a href="' + data[i].link + '/" target="_blank">' + data[i].title + "</a></p><p>" + data[i].venue + "</p>");
+    // let buttonSaved = $('<a>');
+    //   buttonSaved.attr('href', '/');
+    //   buttonSaved.addClass('btn btn-success js-saved');
+    //   $('.for-button').append(buttonSaved);
+
     $("#articles").append(
       `<div class="card col-md-3 m-3 js-div" data-id="${data[i]._id}" style="width: 18rem;">
         <img data-id="${data[i]._id}" class="card-img-top js-img" src="${data[i].image}" alt="Event Image">
@@ -14,7 +25,7 @@ $.getJSON("/articles", function(data) {
         </div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item">${data[i].venue}</li>
-          <li class="list-group-item"><a class="btn btn-success js-saved" href="/">Save Event</a></li>
+          <li class="list-group-item"><a data-id="${data[i]._id}" id="saved" class="btn btn-success">Save Event</a></li>
         </ul>
       </div>`
     );
@@ -51,6 +62,12 @@ function getSaved() {
     for (var i = 0; i < data.length; i++) {
       // Display the apropos information on the page
       // $("#articles").append("<p data-id='" + data[i]._id + "'>" + '<img src="' + data[i].image + '">' + '<a href="' + data[i].link + '/" target="_blank">' + data[i].title + "</a></p><p>" + data[i].venue + "</p>");
+      // let buttonSaved = $('<a>');
+      // buttonSaved.attr('href', '/');
+      // buttonSaved.addClass('btn btn-success js-saved');
+
+      // <a class="btn btn-success js-saved" href="/">Save Event</a>
+
       $("#articles").append(
         `<div class="card col-md-3 m-3 js-div" data-id="${data[i]._id}" style="width: 18rem;">
           <img data-id="${data[i]._id}" class="card-img-top js-img" src="${data[i].image}" alt="Event Image">
@@ -61,7 +78,7 @@ function getSaved() {
           </div>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">${data[i].venue}</li>
-            <li class="list-group-item"><a class="btn btn-success js-saved" href="/">Save Event</a></li>
+            <li class="list-group-item js-saved"><a data-id="${data[i]._id} class="btn btn-success js-saved" href="/">Save Event</a></li>
           </ul>
         </div>`
       );
@@ -69,7 +86,7 @@ function getSaved() {
   });
 };
 
-// Whenever someone clicks a div tag
+// Whenever someone clickson an element with the class of js-img tag
 $(document).on("click", ".js-img", function() {
   // Empty the notes from the note section
   $("#notes").empty();
@@ -136,4 +153,32 @@ $(document).on("click", "#savenote", function() {
 // Clear articles button.
 $('.js-clear').on('click', function() {
     $('.js-article').empty();
+});
+
+// Save articles button.
+
+$(document).on("click", "#saved", function() {
+  // Grab the id associated with the article from the submit button
+  
+  // event.preventDefault();
+  console.log('saved');
+  var thisId = $(this).attr("data-id");
+  console.log(thisId);
+  
+  
+// $.ajax({
+//   method: "PUT",
+//   url: "/articles/" + thisId,
+//   data: {
+//     saved: true
+//   }
+// })
+//   // With that done
+//   .then(function(data) {
+//     // Log the response
+//     console.log(data);
+    
+//   });
+});
+
 });
