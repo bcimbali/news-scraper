@@ -104,7 +104,7 @@ app.get("/articles", function(req, res) {
 // Route for getting all Articles from the db
 app.get("/saved", function(req, res) {
   // Grab every document in the Articles collection
-  db.Article.find({})
+  db.Article.find({saved: true})
     .then(function(dbArticle) {
       // If we were able to successfully find Articles, send them back to the client
       res.json(dbArticle);
