@@ -166,19 +166,19 @@ $(document).on("click", "#saved", function() {
   console.log(thisId);
   
   
-// $.ajax({
-//   method: "PUT",
-//   url: "/articles/" + thisId,
-//   data: {
-//     saved: true
-//   }
-// })
-//   // With that done
-//   .then(function(data) {
-//     // Log the response
-//     console.log(data);
-    
-//   });
+  $.ajax({
+    method: "PUT",
+    url: "/articles/" + thisId,
+    data: {
+      saved: true
+    }
+  })
+    // With that done
+    .then(function(data) {
+      // Log the response
+      console.log(data);
+      
+    });
 });
 
 });

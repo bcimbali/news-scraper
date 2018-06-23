@@ -130,6 +130,15 @@ app.get("/articles/:id", function(req, res) {
     });
 });
 
+// Route for grabbing a specific Article by id, populate it with it's note -PUT ROUTE
+app.put("/articles/:id", function(req, res) {
+  db.Article.findOneAndUpdate({ _id: req.params.id }, {saved: true})
+  .then(function(saved) {
+    // If the User was updated successfully, send it back to the client
+    res.json(saved);
+  })
+});
+
 // Route for saving/updating an Article's associated Note
 app.post("/articles/:id", function(req, res) {
   // Create a new note and pass the req.body to the entry
