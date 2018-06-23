@@ -43,12 +43,12 @@ app.get("/scrape", function(req, res) {
     // Then, we load that into cheerio and save it to $ for a shorthand selector
     var $ = cheerio.load(response.data);
     testHTML = $.html();
-    // Now, we grab every h2 within an article tag, and do the following:
+    // Now, within the id of events, we grad every article that has a class of clearfix that's inside of an li tag
     $("li article.clearfix", "#events").each(function(i, element) {
       // Save an empty result object
       var result = {};
 
-      // Add the text and href of every link, and save them as properties of the result object
+      // Add the text, href of every link, image, and save them as properties of the result object.
       result.title = $(this)
         .children("a")
         .text();
@@ -58,6 +58,13 @@ app.get("/scrape", function(req, res) {
       result.image = 'https://www.residentadvisor.net' + $(this)
         .find("img")
         .attr("src");
+      result.venue = $(this)
+        .children("p.copy")
+        .text();
+      result.venueLink = 'https://www.residentadvisor.net' + $(this)
+        .children("p.copy")
+        .find("a")
+        .attr("href");
       
 
       // Create a new Article using the `result` object built from scraping
