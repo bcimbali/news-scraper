@@ -67,7 +67,6 @@ app.get("/scrape", function(req, res) {
         .children("p.copy")
         .find("a")
         .attr("href");
-      
 
       // Create a new Article using the `result` object built from scraping
       db.Article.create(result)
