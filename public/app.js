@@ -6,7 +6,7 @@ $.getJSON("/articles", function(data) {
     // $("#articles").append("<p data-id='" + data[i]._id + "'>" + '<img src="' + data[i].image + '">' + '<a href="' + data[i].link + '/" target="_blank">' + data[i].title + "</a></p><p>" + data[i].venue + "</p>");
     $("#articles").append(
       `<div class="card col-md-3 m-3 js-div" data-id="${data[i]._id}" style="width: 18rem;">
-        <img class="card-img-top" src="${data[i].image}" alt="Event Image">
+        <img data-id="${data[i]._id}" class="card-img-top js-img" src="${data[i].image}" alt="Event Image">
         <div class="card-body">
           <p class="card-text">
             <a href="${data[i].link}/"target="_blank">${data[i].title}</a>
@@ -14,6 +14,7 @@ $.getJSON("/articles", function(data) {
         </div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item">${data[i].venue}</li>
+          <li class="list-group-item"><a class="btn btn-success js-saved" href="/">Save Event</a></li>
         </ul>
       </div>`
     );
@@ -21,7 +22,7 @@ $.getJSON("/articles", function(data) {
 });
 
 // Whenever someone clicks a div tag
-$(document).on("click", ".js-div", function() {
+$(document).on("click", ".js-img", function() {
   // Empty the notes from the note section
   $("#notes").empty();
   // Save the id from the p tag
