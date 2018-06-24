@@ -16,7 +16,7 @@ $.getJSON("/articles", function(data) {
         </div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item">${data[i].venue}</li>
-          <li class="list-group-item"><a data-id="${data[i]._id}" id="saved" class="btn btn-success">Save Event</a></li>
+          <li class="list-group-item"><a data-id="${data[i]._id}" id="saved" class="btn btn-success text-white">Save Event</a></li>
         </ul>
       </div>`
     );
@@ -41,7 +41,7 @@ function getSaved() {
           </div>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">${data[i].venue}</li>
-            <li class="list-group-item js-saved"><a data-id="${data[i]._id} class="btn btn-success js-saved" href="/">Save Event</a></li>
+            <li class="list-group-item js-saved"><a data-id="${data[i]._id} class="btn btn-success js-saved text-white" href="/">Save Event</a></li>
           </ul>
         </div>`
       );
