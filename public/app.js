@@ -181,4 +181,36 @@ $(document).on("click", "#saved", function() {
     });
 });
 
+$(document).on('click', '#saved-list', function(req, res) {
+
+  $.ajax({
+    method: "GET",
+    url: "/saved",
+    
+  })
+    .then(function(data) {
+      // Log the response
+      // console.log(data);
+      // res.json(data);
+      for (var i = 0; i < data.length; i++) {
+    
+        $("#articles").append(
+          `<div class="card col-md-3 m-3 js-div" data-id="${data[i]._id}" style="width: 18rem;">
+            <img data-id="${data[i]._id}" class="card-img-top js-img" src="${data[i].image}" alt="Event Image">
+            <div class="card-body">
+              <p class="card-text">
+                <a href="${data[i].link}/"target="_blank">${data[i].title}</a>
+              </p>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">${data[i].venue}</li>
+              <li class="list-group-item"><a data-id="${data[i]._id}" id="saved" class="btn btn-success">Save Event</a></li>
+            </ul>
+          </div>`
+        );
+      }
+      
+    });
+});
+
 });
