@@ -1,20 +1,11 @@
 $(document).ready(function() {
 
-
-
 // Grab the articles as a json
 $.getJSON("/articles", function(data) {
-  // For each one
 
-  
+  // For each event returned
   for (var i = 0; i < data.length; i++) {
-    // Display the apropos information on the page
-    // $("#articles").append("<p data-id='" + data[i]._id + "'>" + '<img src="' + data[i].image + '">' + '<a href="' + data[i].link + '/" target="_blank">' + data[i].title + "</a></p><p>" + data[i].venue + "</p>");
-    // let buttonSaved = $('<a>');
-    //   buttonSaved.attr('href', '/');
-    //   buttonSaved.addClass('btn btn-success js-saved');
-    //   $('.for-button').append(buttonSaved);
-
+    // Append each event as a Bootstrap div to the div with an id of 'articles'
     $("#articles").append(
       `<div class="card col-md-3 m-3 js-div" data-id="${data[i]._id}" style="width: 18rem;">
         <img data-id="${data[i]._id}" class="card-img-top js-img" src="${data[i].image}" alt="Event Image">
@@ -32,41 +23,13 @@ $.getJSON("/articles", function(data) {
   }
 });
 
-function getUnsaved() {
-  $.getJSON("/articles", function(data) {
-    // For each one
-    for (var i = 0; i < data.length; i++) {
-      // Display the apropos information on the page
-      // $("#articles").append("<p data-id='" + data[i]._id + "'>" + '<img src="' + data[i].image + '">' + '<a href="' + data[i].link + '/" target="_blank">' + data[i].title + "</a></p><p>" + data[i].venue + "</p>");
-      $("#articles").append(
-        `<div class="card col-md-3 m-3 js-div" data-id="${data[i]._id}" style="width: 18rem;">
-          <img data-id="${data[i]._id}" class="card-img-top js-img" src="${data[i].image}" alt="Event Image">
-          <div class="card-body">
-            <p class="card-text">
-              <a href="${data[i].link}/"target="_blank">${data[i].title}</a>
-            </p>
-          </div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">${data[i].venue}</li>
-            <li class="list-group-item"><a class="btn btn-success js-saved" href="/">Save Event</a></li>
-          </ul>
-        </div>`
-      );
-    }
-  });
-};
-
+// A function to empty the previous articles and add in the saved articles
 function getSaved() {
   $.getJSON("/saved", function(data) {
-    // For each one
+    // For each one:
+    // Empty the previous unsaved events/articles
+    $('.js-article').empty();
     for (var i = 0; i < data.length; i++) {
-      // Display the apropos information on the page
-      // $("#articles").append("<p data-id='" + data[i]._id + "'>" + '<img src="' + data[i].image + '">' + '<a href="' + data[i].link + '/" target="_blank">' + data[i].title + "</a></p><p>" + data[i].venue + "</p>");
-      // let buttonSaved = $('<a>');
-      // buttonSaved.attr('href', '/');
-      // buttonSaved.addClass('btn btn-success js-saved');
-
-      // <a class="btn btn-success js-saved" href="/">Save Event</a>
 
       $("#articles").append(
         `<div class="card col-md-3 m-3 js-div" data-id="${data[i]._id}" style="width: 18rem;">
@@ -121,7 +84,7 @@ $(document).on("click", ".js-img", function() {
     });
 });
 
-// When you click the savenote button
+// The event handler for saving a note for an event/article.
 $(document).on("click", "#savenote", function() {
   // Grab the id associated with the article from the submit button
   var thisId = $(this).attr("data-id");
@@ -156,15 +119,12 @@ $('.js-clear').on('click', function() {
 });
 
 // Save articles button.
-
 $(document).on("click", "#saved", function() {
   // Grab the id associated with the article from the submit button
   
-  // event.preventDefault();
-  console.log('saved');
   var thisId = $(this).attr("data-id");
+  console.log('saved');
   console.log(thisId);
-  
   
   $.ajax({
     method: "PUT",
@@ -177,10 +137,10 @@ $(document).on("click", "#saved", function() {
     .then(function(data) {
       // Log the response
       console.log(data);
-      
     });
 });
 
+// Event handler for returning the saved events/articles
 $(document).on('click', '#saved-list', function(req, res) {
 
   $.ajax({

@@ -81,17 +81,16 @@ app.get("/scrape", function(req, res) {
     });
 
     // If we were able to successfully scrape and save an Article, send a message to the client
-    res.send("Scrape Complete");
-    // res.send(testHTML);
+    res.redirect("/");
   });
 });
 
 // Route for getting all Articles from the db
 app.get("/articles", function(req, res) {
-  // Grab every document in the Articles collection
+  // Grab every unsaved event/article document in the Articles collection
   db.Article.find({saved: false}).sort({$natural:-1})
     .then(function(dbArticle) {
-      // If we were able to successfully find Articles, send them back to the client
+      // If we were able to successfully find unsaved Articles, send them back to the client
       res.json(dbArticle);
     })
     .catch(function(err) {
@@ -113,6 +112,10 @@ app.get("/saved", function(req, res) {
       // If an error occurred, send it to the client
       res.json(err);
     });
+});
+
+app.get("/whatever", function(req, res) {
+  res.send("Whatever");
 });
 
 // Route for grabbing a specific Article by id, populate it with it's note
