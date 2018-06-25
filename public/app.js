@@ -41,21 +41,21 @@ function getSaved() {
           </div>
           <ul class="list-group list-group-flush">
             <li class="list-group-item mx-auto">${data[i].venue}</li>
-            <li class="list-group-item js-saved mx-auto"><a data-id="${data[i]._id}" class="btn btn-dark js-saved text-warning" data-toggle="modal" data-target="#exampleModal">Save Note</a></li>
+            <li class="list-group-item js-saved mx-auto"><a data-id="${data[i]._id}" class="btn btn-dark js-saved js-open-modal text-warning" data-toggle="modal" data-target="#exampleModal">Add Note</a></li>
           </ul>
           <!-- Modal for notes -->
           <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Notes:</h5>
+                  <h5 class="modal-title" id="exampleModalLabel"></h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <div class="modal-body">
                   <form>
-                    <div class="form-group past-notes">
+                    <div class="form-group past-notes" id="noteinput">
                       
                     </div>
                     <div class="form-group">
@@ -66,7 +66,7 @@ function getSaved() {
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-warning text-dark">Save changes</button>
+                  <button data-id="${data[i]._id}" type="button" id="savenote" class="btn btn-warning text-dark js-save-note">Save Note</button>
                 </div>
               </div>
             </div>
@@ -77,11 +77,10 @@ function getSaved() {
   });
 };
 
-// Whenever someone clickson an element with the class of js-img tag
-$(document).on("click", ".js-img", function() {
+// Whenever someone clicks on the 'save note' button...
+$(document).on("click", ".js-open-modal", function() {
   // Empty the notes from the note section
-  // $("#notes").empty();
-  // Save the id from the p tag
+  // Save the id from the button tag
   var thisId = $(this).attr("data-id");
   console.log('Data ID is: ' + thisId);
 
@@ -93,21 +92,26 @@ $(document).on("click", ".js-img", function() {
     // With that done, add the note information to the page
     .then(function(data) {
       console.log(data);
-      // The title of the article
-      $("#notes").append("<h2>" + data.title + "</h2>");
+      // console.log(data.note.body);
+      $("#message-text").val('');
+      $("#noteinput").empty();
+      // The title of the article is written to top of modal
+      $('#exampleModalLabel').text(data.title);
+      // $('.past-notes').text(data.note.body);
       // An input to enter a new title
-      $("#notes").append("<input id='titleinput' name='title' >");
+      // $("#notes").append("<input id='titleinput' name='title' >");
       // A textarea to add a new note body
-      $("#notes").append("<textarea id='bodyinput' name='body'></textarea>");
+      // $("#notes").append("<textarea id='bodyinput' name='body'></textarea>");
       // A button to submit a new note, with the id of the article saved to it
-      $("#notes").append("<button data-id='" + data._id + "' id='savenote'>Save Note</button>");
+      // $("#notes").append("<button data-id='" + data._id + "' id='savenote'>Save Note</button>");
 
       // If there's a note in the article
       if (data.note) {
+        console.log(data.note.body);
         // Place the title of the note in the title input
-        $("#titleinput").val(data.note.title);
+        // $("#titleinput").val(data.note.title);
         // Place the body of the note in the body textarea
-        $("#bodyinput").val(data.note.body);
+        $(".past-notes").text(data.note.body);
       }
     });
 });
@@ -116,6 +120,7 @@ $(document).on("click", ".js-img", function() {
 $(document).on("click", "#savenote", function() {
   // Grab the id associated with the article from the submit button
   var thisId = $(this).attr("data-id");
+  console.log('Saving a note for this id: ' + thisId);
 
   // Run a POST request to change the note, using what's entered in the inputs
   $.ajax({
@@ -123,22 +128,24 @@ $(document).on("click", "#savenote", function() {
     url: "/articles/" + thisId,
     data: {
       // Value taken from title input
-      title: $("#titleinput").val(),
+      // title: $("#titleinput").val(),
       // Value taken from note textarea
-      body: $("#bodyinput").val()
+      body: $("#message-text").val()
     }
   })
     // With that done
     .then(function(data) {
       // Log the response
+      console.log('Data from the clicking a save note button: ');
       console.log(data);
       // Empty the notes section
-      $("#notes").empty();
+      // $("#notes").empty();
     });
 
   // Also, remove the values entered in the input and textarea for note entry
-  $("#titleinput").val("");
-  $("#bodyinput").val("");
+  // $("#titleinput").val("");
+  // $("#bodyinput").val("");
+     $("#message-text").val('');
 });
 
 // Clear articles button.
