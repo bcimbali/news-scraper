@@ -41,26 +41,26 @@ function getSaved() {
           </div>
           <ul class="list-group list-group-flush">
             <li class="list-group-item mx-auto">${data[i].venue}</li>
-            <li class="list-group-item js-saved mx-auto"><a data-id="${data[i]._id}" class="btn btn-dark js-saved js-open-modal text-warning" data-toggle="modal" data-target="#exampleModal">Add Note</a></li>
+            <li class="list-group-item js-saved mx-auto"><a data-id="${data[i]._id}" class="btn btn-dark js-saved js-open-modal text-warning" data-toggle="modal" data-target="#exampleModal${data[i]._id}">Add Note</a></li>
           </ul>
           <!-- Modal for notes -->
-          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal fade" id="exampleModal${data[i]._id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel"></h5>
+                  <h5 class="modal-title" id="exampleModalLabel">${data[i].title}</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <div class="modal-body">
                   <form>
-                    <div class="form-group past-notes" id="noteinput">
+                    <div class="form-group past-notes${data[i]._id}" id="noteinput">
                       
                     </div>
                     <div class="form-group">
                       <label for="note-text" class="col-form-label">Message:</label>
-                      <textarea class="form-control" id="message-text"></textarea>
+                      <textarea class="form-control" id="message-text${data[i]._id}"></textarea>
                     </div>
                   </form>
                 </div>
@@ -93,10 +93,10 @@ $(document).on("click", ".js-open-modal", function() {
     .then(function(data) {
       console.log(data);
       // console.log(data.note.body);
-      $("#message-text").val('');
-      $("#noteinput").empty();
+      $("#message-text" + thisId).val('');
+      // $("#noteinput").empty();
       // The title of the article is written to top of modal
-      $('#exampleModalLabel').text(data.title);
+      // $('#exampleModalLabel').text(data.title);
       // $('.past-notes').text(data.note.body);
       // An input to enter a new title
       // $("#notes").append("<input id='titleinput' name='title' >");
@@ -107,11 +107,14 @@ $(document).on("click", ".js-open-modal", function() {
 
       // If there's a note in the article
       if (data.note) {
+        console.log('Note Body is below: ');
         console.log(data.note.body);
+        console.log('data.note in full: ');
+        console.log(data.note);
         // Place the title of the note in the title input
         // $("#titleinput").val(data.note.title);
         // Place the body of the note in the body textarea
-        $(".past-notes").text(data.note.body);
+        $(".past-notes" + thisId).text(data.note.body);
       }
     });
 });
@@ -130,7 +133,7 @@ $(document).on("click", "#savenote", function() {
       // Value taken from title input
       // title: $("#titleinput").val(),
       // Value taken from note textarea
-      body: $("#message-text").val()
+      body: $("#message-text" + thisId).val()
     }
   })
     // With that done
@@ -140,12 +143,13 @@ $(document).on("click", "#savenote", function() {
       console.log(data);
       // Empty the notes section
       // $("#notes").empty();
+      $("#message-text" + thisId).val('');
+      $(".past-notes").text(data.note.body);
     });
 
   // Also, remove the values entered in the input and textarea for note entry
   // $("#titleinput").val("");
   // $("#bodyinput").val("");
-     $("#message-text").val('');
 });
 
 // Clear articles button.
