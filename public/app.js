@@ -9,14 +9,14 @@ $.getJSON("/articles", function(data) {
     $("#articles").append(
       `<div class="card col-md-3 m-3 js-div" data-id="${data[i]._id}" style="width: 18rem;">
         <img data-id="${data[i]._id}" class="card-img-top js-img" src="${data[i].image}" alt="Event Image">
-        <div class="card-body">
+        <div class="card-body mx-auto">
           <p class="card-text">
-            <a href="${data[i].link}/"target="_blank">${data[i].title}</a>
+            <a class="font-weight-bold text-dark" href="${data[i].link}/"target="_blank">${data[i].title}</a>
           </p>
         </div>
         <ul class="list-group list-group-flush">
-          <li class="list-group-item">${data[i].venue}</li>
-          <li class="list-group-item"><a data-id="${data[i]._id}" id="saved" class="btn btn-success text-white">Save Event</a></li>
+          <li class="list-group-item mx-auto">${data[i].venue}</li>
+          <li class="list-group-item mx-auto"><a data-id="${data[i]._id}" id="saved" class="btn btn-warning text-dark">Save Event</a></li>
         </ul>
       </div>`
     );
@@ -34,15 +34,43 @@ function getSaved() {
       $("#articles").append(
         `<div class="card col-md-3 m-3 js-div" data-id="${data[i]._id}" style="width: 18rem;">
           <img data-id="${data[i]._id}" class="card-img-top js-img" src="${data[i].image}" alt="Event Image">
-          <div class="card-body">
+          <div class="card-body mx-auto">
             <p class="card-text">
-              <a href="${data[i].link}/"target="_blank">${data[i].title}</a>
+              <a class="font-weight-bold text-dark" href="${data[i].link}/"target="_blank">${data[i].title}</a>
             </p>
           </div>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item">${data[i].venue}</li>
-            <li class="list-group-item js-saved"><a data-id="${data[i]._id} class="btn btn-success js-saved text-white" href="/">Save Event</a></li>
+            <li class="list-group-item mx-auto">${data[i].venue}</li>
+            <li class="list-group-item js-saved mx-auto"><a data-id="${data[i]._id}" class="btn btn-dark js-saved text-warning" data-toggle="modal" data-target="#exampleModal">Save Note</a></li>
           </ul>
+          <!-- Modal for notes -->
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Notes:</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form>
+                    <div class="form-group past-notes">
+                      
+                    </div>
+                    <div class="form-group">
+                      <label for="note-text" class="col-form-label">Message:</label>
+                      <textarea class="form-control" id="message-text"></textarea>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-warning text-dark">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>`
       );
     }
@@ -52,7 +80,7 @@ function getSaved() {
 // Whenever someone clickson an element with the class of js-img tag
 $(document).on("click", ".js-img", function() {
   // Empty the notes from the note section
-  $("#notes").empty();
+  // $("#notes").empty();
   // Save the id from the p tag
   var thisId = $(this).attr("data-id");
   console.log('Data ID is: ' + thisId);
