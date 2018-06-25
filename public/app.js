@@ -55,6 +55,7 @@ function getSaved() {
                 </div>
                 <div class="modal-body">
                   <form>
+                    <div class="font-weight-bold">Latest Note for event:</div>
                     <div class="form-group past-notes${data[i]._id}" id="noteinput">
                       
                     </div>

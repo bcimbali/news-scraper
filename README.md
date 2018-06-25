@@ -5,6 +5,10 @@ This is a scraper app for the Resident Advisor events in the Chicago area.  The 
 ## Check it out here:
 https://enigmatic-stream-99192.herokuapp.com/
 
+## Screenshot:
+
+![Home Page](https://github.com/bcimbali/news-scraper/blob/master/public/assets/All_Events.png?raw=true)
+
 ## Built With:
 - Javascript
 - jQuery
