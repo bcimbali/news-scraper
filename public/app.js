@@ -1,3 +1,4 @@
+// @flow
 $(document).ready(function() {
 
 // Grab the articles as a json
